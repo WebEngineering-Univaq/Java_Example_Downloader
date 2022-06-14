@@ -1,4 +1,4 @@
-# Esempio_Downloader_Maven
+# Java_Example_Downloader
 > Example of binary data download with Java Servlets
 
 This application shows how to output binary data from a servlet, e.g., to download a file from a repository.
@@ -15,5 +15,5 @@ This is a Maven-based project. Simply download the code and open it in any Maven
 
 ---
 
-![University od L'Aquila](https://www.disim.univaq.it/skins/aqua/img/logo2021-2.png)
+![University of L'Aquila](https://www.disim.univaq.it/skins/aqua/img/logo2021-2.png)
 
