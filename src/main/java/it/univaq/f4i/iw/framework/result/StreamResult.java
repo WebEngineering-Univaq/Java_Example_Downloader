@@ -27,6 +27,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class StreamResult {
 
+    //Questa classe result in realtà non utilizza il context, ma glielo passiamo ugualmente per essere uniformi rispetto ad altre classi result del framework
+    //This result class doesn't actually use the context, but we pass it anyway to be consistent with other result classes in the framework.
     protected ServletContext context;
     protected InputStream resource;
     protected String resourceName;

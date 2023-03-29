@@ -25,6 +25,9 @@ public class HTMLResult {
 
         XHTML1_STRICT, XHTML1_TRANSITIONAL, HTML5
     };
+
+    //Questa classe result in realtà non utilizza il context, ma glielo passiamo ugualmente per essere uniformi rispetto ad altre classi result del framework
+    //This result class doesn't actually use the context, but we pass it anyway to be consistent with other result classes in the framework.
     protected ServletContext context;
     private String title;
     private String head;
@@ -120,8 +123,8 @@ public class HTMLResult {
     public void setEncoding(String charset) {
         this.encoding = charset;
     }
-    
-     /**
+
+    /**
      * @return the contentType
      */
     public String getContentType() {
@@ -207,10 +210,9 @@ public class HTMLResult {
     public static String sanitizeHTMLOutput(String s) {
         return s.replaceAll("&", "&amp;")
                 .replaceAll("<", "&lt;")
-                .replaceAll("<", "&gt;")
+                .replaceAll(">", "&gt;")
                 .replaceAll("'", "&#039;")
                 .replaceAll("\"", "&#034;");
     }
 
-   
 }
