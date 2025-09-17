@@ -17,9 +17,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -66,49 +66,40 @@ public class StreamResult {
     }
 
     public void activate(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        OutputStream out = null;
+
         if (resource != null) {
-            try {
-                //disabilitiamo tutte le forme di caching...
-                //disable caching...
-                response.setHeader("Pragma", "");
-                response.setHeader("Cache-Control", "");
+            //disabilitiamo tutte le forme di caching...
+            //disable caching...
+            response.setHeader("Pragma", "");
+            response.setHeader("Cache-Control", "");
 
-                String contentType = (String) request.getAttribute("contentType");
-                if (contentType == null) {
-                    if (resourceType != null) {
-                        contentType = resourceType;
-                    } else {
-                        contentType = "application/octet-stream";
-                    }
+            String contentType = (String) request.getAttribute("contentType");
+            if (contentType == null) {
+                if (resourceType != null) {
+                    contentType = resourceType;
+                } else {
+                    contentType = "application/octet-stream";
                 }
-                response.setContentType(contentType);
-                response.setContentLength((int) this.resourceSize);
+            }
+            response.setContentType(contentType);
+            response.setContentLength((int) this.resourceSize);
 
-                String contentDisposition = (String) request.getAttribute("contentDisposition");
-                if (contentDisposition == null) {
-                    contentDisposition = "attachment";
-                }
-                contentDisposition += "; filename=\"" + this.resourceName + "\"";
-                response.setHeader("Content-Disposition", contentDisposition);
+            String contentDisposition = (String) request.getAttribute("contentDisposition");
+            if (contentDisposition == null) {
+                contentDisposition = "attachment";
+            }
+            contentDisposition += "; filename=\"" + this.resourceName + "\"";
+            response.setHeader("Content-Disposition", contentDisposition);
 
-                //copiamo lo stream in output
-                //copy the stream to the output
-                out = response.getOutputStream();
+            //copiamo lo stream in output
+            //copy the stream to the output
+            try (OutputStream out = response.getOutputStream()) {
                 byte[] buffer = new byte[1024];
                 int read;
                 while ((read = this.resource.read(buffer)) > 0) {
                     out.write(buffer, 0, read);
                 }
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                    }
-                } catch (IOException ex) {
-                    //ingoriamo altri errori nel finally
-                    //ignore errors in finally clause
-                }
+
             }
         }
     }
